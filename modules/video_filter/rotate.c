@@ -198,7 +198,7 @@ static void Destroy( vlc_object_t *p_this )
 }
 
 /*****************************************************************************
- *
+ * Filter itself
  *****************************************************************************/
 static picture_t *Filter( filter_t *p_filter, picture_t *p_pic )
 {
@@ -231,7 +231,9 @@ static picture_t *Filter( filter_t *p_filter, picture_t *p_pic )
         const int i_visible_lines = p_srcp->i_visible_lines;
         const int i_visible_pitch = p_srcp->i_visible_pitch;
 
-        const int i_aspect = __MAX( 1, ( i_visible_lines * p_pic->p[Y_PLANE].i_visible_pitch ) / ( p_pic->p[Y_PLANE].i_visible_lines * i_visible_pitch ));
+        const int i_aspect = __MAX( 1, ( i_visible_lines * p_pic->
+        p[Y_PLANE].i_visible_pitch ) / ( p_pic->
+        p[Y_PLANE].i_visible_lines * i_visible_pitch ));
         /* = 2 for U and V planes in YUV 4:2:2, = 1 otherwise */
 
         const int i_line_center = i_visible_lines>>1;
@@ -253,7 +255,8 @@ static picture_t *Filter( filter_t *p_filter, picture_t *p_pic )
             {
                 const int i_line_orig = (i_line_orig0>>12)*i_aspect + i_line_center;
                 const int i_col_orig  = (i_col_orig0>>12)  + i_col_center;
-                const uint8_t *p_orig_offset = &p_srcp->p_pixels[i_line_orig * p_srcp->i_pitch + i_col_orig];
+                const uint8_t *p_orig_offset = &p_srcp->
+                p_pixels[i_line_orig * p_srcp->i_pitch + i_col_orig];
                 const uint8_t i_line_percent = (i_line_orig0>>4) & 255;
                 const uint8_t i_col_percent  = (i_col_orig0 >>4) & 255;
 
@@ -352,8 +355,8 @@ static picture_t *FilterPacked( filter_t *p_filter, picture_t *p_pic )
         picture_Release( p_pic );
         return NULL;
     }
-
-    const int i_visible_pitch = p_pic->p->i_visible_pitch>>1; /* In fact it's i_visible_pixels */
+    /* In fact it's i_visible_pixels */
+    const int i_visible_pitch = p_pic->p->i_visible_pitch>>1; 
     const int i_visible_lines = p_pic->p->i_visible_lines;
 
     const uint8_t *p_in   = p_pic->p->p_pixels+i_y_offset;
@@ -394,10 +397,13 @@ static picture_t *FilterPacked( filter_t *p_filter, picture_t *p_pic )
             if( 0 <= i_col_orig && i_col_orig < i_visible_pitch
              && 0 <= i_line_orig && i_line_orig < i_visible_lines )
             {
-                p_out[i_line*i_out_pitch+2*i_col] = p_in[i_line_orig*i_in_pitch+2*i_col_orig];
+                p_out[i_line*i_out_pitch+2*i_col] =
+                p_in[i_line_orig*i_in_pitch+2*i_col_orig];
                 i_col_orig /= 2;
-                p_out_u[i_line*i_out_pitch+2*i_col] = p_in_u[i_line_orig*i_in_pitch+4*i_col_orig];
-                p_out_v[i_line*i_out_pitch+2*i_col] = p_in_v[i_line_orig*i_in_pitch+4*i_col_orig];
+                p_out_u[i_line*i_out_pitch+2*i_col] = 
+                p_in_u[i_line_orig*i_in_pitch+4*i_col_orig];
+                p_out_v[i_line*i_out_pitch+2*i_col] = 
+                p_in_v[i_line_orig*i_in_pitch+4*i_col_orig];
             }
             else
             {
@@ -412,7 +418,7 @@ static picture_t *FilterPacked( filter_t *p_filter, picture_t *p_pic )
                 break;
 
             i_line_orig = i_line_center +
-                ( ( i_sin * ( i_col - i_col_center )
+                ( ( i_sin * ( i_col - i_col_center )                         
                   + i_cos * ( i_line - i_line_center ) )>>12 );
             i_col_orig = i_col_center +
                 ( ( i_cos * ( i_col - i_col_center )

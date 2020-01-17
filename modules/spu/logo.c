@@ -92,7 +92,6 @@ vlc_module_begin ()
     set_description( N_("Logo sub source") )
     set_shortname( N_("Logo overlay") )
     add_shortcut( "logo" )
-
     add_loadfile(CFG_PREFIX "file", NULL, FILE_TEXT, FILE_LONGTEXT)
     add_integer( CFG_PREFIX "x", -1, POSX_TEXT, POSX_LONGTEXT, true )
     add_integer( CFG_PREFIX "y", -1, POSY_TEXT, POSY_LONGTEXT, true )
@@ -747,4 +746,3 @@ static logo_t *LogoListCurrent( logo_list_t *p_list )
 {
     return &p_list->p_logo[p_list->i_counter];
 }
-
